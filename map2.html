@@ -1,0 +1,1689 @@
+<!doctype html>
+<html>
+<head>
+	<!--BUILT BY trevor@websmithtraining.com 2013-->
+
+	<!--prevents IE from going into compatibility mode on intranet-->
+	<!--<meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+	<!-- NOTE: THIS WAS REMOVED 9/29/14 due to a problem with IE11 - the line immediately below ... -->
+	<!-- ... tells the IE to behave as though it's IE10 if browser is IE11 or later	-->
+	
+		<meta http-equiv="X-UA-Compatible" content="IE=10" />
+	<!-- makes svg work with file:// protocol -->
+	<meta http-equiv="Content-Type" content="text/xml; charset=UTF-8" />
+	
+	
+	
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    
+<title>Global Surety Map</title>
+
+<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.svg.js"></script>
+<script type="text/javascript" src="jquery.svganim.js"></script>
+<script type="text/javascript">
+
+	$( document ).ready(function() {
+		// SET VARIABLES
+		var screen_width = $(window).width();
+		var screen_height = $(window).height();
+		// stores either 'in' or 'out'
+		var zoom = "out";
+		// stores the name of the continent that's been moused over
+		var continent;
+		// CLEAR continent_country TEXT TO START
+		$('#continent_country').html("");
+	
+		//LOAD SVG
+		var svg = $('#svgmap').svg('get'); 
+		$('#svgmap').svg({loadURL: 'world.svg'}); 
+		
+		//SET SVG INITIAL SIZE BASED ON BROWSER SIZE
+		$('#svgmap').css('width', screen_width + "px");
+		$('#svgmap').css('height', screen_height + "px");
+		$('svg').attr('width', screen_width);
+		$('svg').attr('height', screen_height);
+		$('svg').attr('window-width', screen_width);
+		$('svg').attr('window-height', screen_height);
+		$('svg').attr('viewBox', '0 0 1024 768');
+		
+		// RESPONSIVE RESIZING
+		if(screen_height <= 768){
+			$('svg').attr('viewBox', '0 0 1024 screen_height');
+			$('#svgmap').css('margin-top', '-100px');
+			$('#svgmap').css('height', '768px');
+			$('#map_title').css('left', '30%');
+			$('.databox').css('left', '-40%');
+			$('#prompt').css('right', '0px');
+			$('#prompt').css('float', 'right');
+			//alert($('svg').attr('viewBox'));
+		}else if(screen_height <= 864){
+			$('#svgmap').css('margin-top', '-50px');
+		}
+		
+		// ZOOM OUT (CLICK ZOOM OUT BUTTON) MOVE ALL DATABOXES OFFSTAGE
+		$('#zoom_out').click(function() {
+			//$('svg').animate({svgHeight: 768, svgWidth: '100%',svgX: 0}, 500);
+			$('svg').animate({svgViewBox: '1, 1, 1024, 562'}, 2000);
+			//$('svg').animate({currentScale: 1}, 2000);
+			$('#NorthAmericaData').animate({left: '-40%'}, 400);
+			$('#LatinAmericaData').animate({left: '-40%'}, 400);
+			$('#EuropeData').animate({left: '-40%'}, 400);
+			$('#AfricaData').animate({left: '-40%'}, 400);
+			$('#AustraliaAsiaData').animate({left: '-40%'}, 400);
+			//$('#legend').animate({left: '0%'}, 400);
+			$('#zoom_out').css('display', 'none');
+			$('#map_title').css('display', 'block');
+			$('#prompt').html("<p>" + "Click a Continent for more information." + "</p>");
+			zoom = "out";
+		});
+		
+		// CLICK ON SVG
+		$('svg').click(function(event){
+			// IF ZOOMED IN...
+			if(zoom == "in"){
+						// SHOW ACTIVE COUNTRY NAMES AND CLICK FOR COUNTRY LINK
+						// ## CHANGE ## Add / Remove Active Countries (URL)
+						switch(event.target.id) {
+							case ("Argentina"):
+								window.location = 'http://en.wikipedia.org/wiki/Argentina';
+							break;
+							case ("Australia"):
+								window.location = 'http://en.wikipedia.org/wiki/Australia';
+							break;
+							case ("Austria"):
+								window.location = 'http://en.wikipedia.org/wiki/Austria';
+							break;
+							case ("Bahamas"):
+								window.location = 'http://en.wikipedia.org/wiki/Bahamas';
+							break;
+							case ("Belize"):
+								window.location = 'http://en.wikipedia.org/wiki/Belize';
+							break;
+							case ("Bolivia"):
+								window.location = 'http://en.wikipedia.org/wiki/Bolivia';
+							break;
+							case ("Brazil"):
+								window.location = 'http://en.wikipedia.org/wiki/Brazil';
+							break;
+							case ("Canada"):
+								window.location = 'http://en.wikipedia.org/wiki/Canada';
+							break;
+							case ("Chile"):
+								window.location = 'http://en.wikipedia.org/wiki/Chile';
+							break;
+							case ("Colombia"):
+								window.location = 'http://en.wikipedia.org/wiki/Columbia';
+							break;
+							case ("Costa_Rica"):
+								window.location = 'http://en.wikipedia.org/wiki/Costa_Rica';
+							break;
+							case ("Denmark"):
+								window.location = 'http://en.wikipedia.org/wiki/Denmark';
+							break;
+							case ("Dominican_Republic"):
+								window.location = 'http://en.wikipedia.org/wiki/Dominican_Republic';
+							break;
+							case ("Ecuador"):
+								window.location = 'http://en.wikipedia.org/wiki/Ecuador';
+							break;
+							case ("El_Salvador"):
+								window.location = 'http://en.wikipedia.org/wiki/El_Salvador';
+							break;
+							case ("France"):
+								window.location = 'http://en.wikipedia.org/wiki/France';
+							break;
+							case ("Germany"):
+								window.location = 'http://en.wikipedia.org/wiki/Germany';
+							break;
+							case ("Guam"):
+								window.location = 'http://en.wikipedia.org/wiki/Guam';
+							break;
+							case ("Guatemala"):
+								window.location = 'http://en.wikipedia.org/wiki/Guatemala';
+							break;
+							case ("Haiti"):
+								window.location = 'http://en.wikipedia.org/wiki/Haiti';
+							break;
+							case ("Honduras"):
+								window.location = 'http://en.wikipedia.org/wiki/Honduras';
+							break;
+							case ("Indonesia"):
+								window.location = 'http://en.wikipedia.org/wiki/Indonesia';
+							break;
+							case ("Ireland"):
+								window.location = 'http://en.wikipedia.org/wiki/Ireland';
+							break;
+							case ("Italy"):
+								window.location = 'http://en.wikipedia.org/wiki/Italy';
+							break;
+							case ("Mexico"):
+								window.location = 'http://en.wikipedia.org/wiki/Mexico';
+							break;
+							case ("Netherlands"):
+								window.location = 'http://en.wikipedia.org/wiki/Netherlands';
+							break;
+							case ("Nicaragua"):
+								window.location = 'http://en.wikipedia.org/wiki/Nicaragua';
+							break;
+							case ("Northern_Mariana_Islands"):
+								window.location = 'http://en.wikipedia.org/wiki/Northern_Mariana_Islands';
+							break;
+							case ("Panama"):
+								window.location = 'http://en.wikipedia.org/wiki/Panama';
+							break;
+							case ("Paraguay"):
+								window.location = 'http://en.wikipedia.org/wiki/Paraguay';
+							break;
+							case ("Portugal"):
+								window.location = 'http://en.wikipedia.org/wiki/Portugal';
+							break;
+							case ("Puerto_Rico"):
+								window.location = 'http://en.wikipedia.org/wiki/Puerto_Rico';
+							break;
+							case ("Peru"):
+								window.location = 'http://en.wikipedia.org/wiki/Peru';
+							break;
+							case ("Singapore"):
+								window.location = 'http://en.wikipedia.org/wiki/Singapore';
+							break;
+							case ("South_Africa"):
+								window.location = 'http://en.wikipedia.org/wiki/South_Africa';
+							break;
+							case ("South_Korea"):
+								window.location = 'http://en.wikipedia.org/wiki/South_Korea';
+							break;
+							case ("Spain"):
+								window.location = 'http://en.wikipedia.org/wiki/Spain';
+							break;
+							case ("Sweden"):
+								window.location = 'http://en.wikipedia.org/wiki/Sweden';
+							break;
+							case ("United_Kingdom"):
+								window.location = 'http://en.wikipedia.org/wiki/United_Kingdom';
+							break;
+							case ("Uruguay"):
+								window.location = 'http://en.wikipedia.org/wiki/Uruguay';
+							break;
+							case ("Venezuela"):
+								window.location = 'http://en.wikipedia.org/wiki/Venezuela';
+							break;
+							case ("Virgin_Islands"):
+								window.location = 'http://en.wikipedia.org/wiki/Virgin_Islands';
+							break;
+							/*case ("[NEW COUNTRY GOES HERE]"):
+								window.location = '[NEW URL GOES HERE ]';
+							break;*/
+					}
+			}
+		
+		
+			// ZOOM IN ON NORTH AMERICA
+			// NOTE var continent is set by mouseover
+			if(continent == "NorthAmerica"){
+				// RESPONSIVE FIX
+				if(screen_height <= 768){
+					$('svg').animate({svgViewBox: '1, 1, 250, 400'}, 2000);
+				}else{
+					$('svg').animate({svgViewBox: '1, 1, 250, 350'}, 2000);
+				}
+
+				$('#NorthAmericaData').animate({left: 0}, 300);
+				$('#zoom_out').css('display', 'block');
+				$('#map_title').css('display', 'none');
+				$('#prompt').html("<p>" + "Click a Country for more information." + "</p>");
+				zoom = "in";
+				
+			// ZOOM IN ON LATIN AMERICA
+			}else if(continent == "LatinAmerica"){
+				// RESPONSIVE FIX
+				if(screen_height <= 768){
+					$('svg').animate({svgViewBox: '90, 260, 300, 360'}, 2000);
+				}else{
+					$('svg').animate({svgViewBox: '90, 300, 300, 275'}, 2000);
+				}
+				$('#LatinAmericaData').animate({left: 0}, 300);
+				$('#zoom_out').css('display', 'block');
+				$('#map_title').css('display', 'none');
+				$('#prompt').html("<p>" + "Click a Country for more information." + "</p>");
+				zoom = "in";
+				
+			// ZOOM IN ON EUROPE
+			}else if(continent == "Europe"){
+				// RESPONSIVE FIX
+				if(screen_height <= 768){
+					$('svg').animate({svgViewBox: '375, 70, 200, 230'}, 2000);
+				}else if(screen_height <= 864){
+					$('svg').animate({svgViewBox: '375, 30, 200, 230'}, 2000);
+				}else{
+					$('svg').animate({svgViewBox: '375, 100, 200, 200'}, 2000);
+				}
+				$('#EuropeData').animate({left: 0}, 300);
+				$('#zoom_out').css('display', 'block');
+				$('#map_title').css('display', 'none');
+				$('#prompt').html("<p>" + "Click a Country for more information." + "</p>");
+				zoom = "in";
+				
+			// ZOOM IN ON AFRICA
+			}else if(continent == "Africa"){
+				// RESPONSIVE FIX
+				if(screen_height <= 768){
+					$('svg').animate({svgViewBox: '360, 220, 250, 320'}, 2000);
+				}else{
+					$('svg').animate({svgViewBox: '360, 240, 250, 280'}, 2000);
+				}
+				$('#AfricaData').animate({left: 0}, 300);
+				$('#zoom_out').css('display', 'block');
+				$('#map_title').css('display', 'none');
+				$('#prompt').html("<p>" + "Click a Country for more information." + "</p>");
+				zoom = "in";
+				
+			// ZOOM IN ON AUSTRALIA AND ASIA
+			}else if(continent == "AsiaAndAustralia"){
+				// RESPONSIVE FIX
+				if(screen_height <= 768){
+					$('svg').animate({svgViewBox: '700, 170, 200, 410'}, 2000);
+				}else if(screen_height <= 864){
+					$('svg').animate({svgViewBox: '700, 170, 200, 420'}, 2000);
+				}else{
+					$('svg').animate({svgViewBox: '700, 225, 200, 300'}, 2000);
+				}
+				$('#AustraliaAsiaData').animate({left: 0}, 300);
+				$('#zoom_out').css('display', 'block');
+				$('#map_title').css('display', 'none');
+				$('#prompt').html("<p>" + "Click a Country for more information." + "</p>");
+				zoom = "in";
+			}
+			
+		});
+		
+		function preventDefault(){
+		
+		}
+		
+		// MOUSE OVER
+		$('svg').mouseover(function(event){
+			var evt = event;
+			// IF MOUSE IS OVER THE OCEAN
+			if(event.target.id == "Layer_1"){
+				$('#continent_country').html("");
+				preventDefault();
+			// IF ZOOMED OUT TRIGGER CONTINENT FUNCTION (SEE BELOW)
+			}else if(zoom == "out"){
+				switch(event.target.id) {
+						// NORTH AMERICA
+							case ("Canada"):
+								northAmerica();
+							break;
+							case ("Greenland"):
+								northAmerica();
+							break;
+							case ("USA"):
+								northAmerica();
+							break;
+							case ("Mexico"):
+								northAmerica();
+							break;
+							case ("Guatemala"):
+								northAmerica();
+							break;
+							case ("Honduras"):
+								northAmerica();
+							break;
+							case ("Belize"):
+								northAmerica();
+							break;
+							case ("Nicaragua"):
+								northAmerica();
+							break;
+							case ("Costa_Rica"):
+								northAmerica();
+							break;
+							case ("Panama"):
+								northAmerica();
+							break;
+							case ("Cuba"):
+								northAmerica();
+							break;
+							case ("Bermuda"):
+								northAmerica();
+							break;
+							case ("Bahamas"):
+								northAmerica();
+							break;
+							case ("Jamaica"):
+								northAmerica();
+							break;
+							case ("Cayman_Islands"):
+								northAmerica();
+							break;
+							case ("Puerto_Rico"):
+								northAmerica();
+							break;
+							case ("Haiti"):
+								northAmerica();
+							break;
+							case ("Dominican_Republic"):
+								northAmerica();
+							break;
+							
+							
+							//LATIN AMERICA
+							case ("Argentina"):
+								latinAmerica();
+							break;
+							case ("Bolivia"):
+								latinAmerica();
+							break;
+							case ("Brazil"):
+								latinAmerica();
+							break;
+							case ("Chile"):
+								latinAmerica();
+							break;
+							case ("Colombia"):
+								latinAmerica();
+							break;
+							case ("Ecuador"):
+								latinAmerica();
+							break;
+							case ("Guyana"):
+								latinAmerica();
+							break;
+							case ("Paraguay"):
+								latinAmerica();
+							break;
+							case ("Peru"):
+								latinAmerica();
+							break;
+							case ("Suriname"):
+								latinAmerica();
+							break;
+							case ("Trinidad_and_Tobago"):
+								latinAmerica();
+							break;
+							case ("Uruguay"):
+								latinAmerica();
+							break;
+							case ("Venezuela"):
+								latinAmerica();
+							break;
+							
+							// EUROPE
+							
+							case ("Albania"):
+								europe();
+							break;
+							case ("Andorra"):
+								europe();
+							break;
+							case ("Armenia"):
+								europe();
+							break;
+							case ("Austria"):
+								europe();
+							break;
+							case ("Azerbaijan"):
+								europe();
+							break;
+							case ("Belarus"):
+								europe();
+							break;
+							case ("Belgium"):
+								europe();
+							break;
+							case ("Bosnia_and_Herzegovina"):
+								europe();
+							break;
+							case ("Bulgaria"):
+								europe();
+							break;
+							case ("Croatia"):
+								europe();
+							break;
+							case ("Cyprus"):
+								europe();
+							break;
+							case ("Czech_Republic"):
+								europe();
+							break;
+							case ("Denmark"):
+								europe();
+							break;
+							case ("Estonia"):
+								europe();
+							break;
+							case ("Finland"):
+								europe();
+							break;
+							case ("France"):
+								europe();
+							break;
+							case ("Georgia"):
+								europe();
+							break;
+							case ("Germany"):
+								europe();
+							break;
+							case ("Greece"):
+								europe();
+							break;
+							case ("Hungary"):
+								europe();
+							break;
+							case ("Iceland"):
+								europe();
+							break;
+							case ("Ireland"):
+								europe();
+							break;
+							case ("Italy"):
+								europe();
+							break;
+							case ("Kazakhstan"):
+								europe();
+							break;
+							case ("Latvia"):
+								europe();
+							break;
+							case ("Lichtenstein"):
+								europe();
+							break;
+							case ("Lithuania"):
+								europe();
+							break;
+							case ("Luxembourg"):
+								europe();
+							break;
+							case ("Macedonia"):
+								europe();
+							break;
+							case ("Malta"):
+								europe();
+							break;
+							case ("Moldova"):
+								europe();
+							break;
+							case ("Monaco"):
+								europe();
+							break;
+							case ("Montenegro"):
+								europe();
+							break;
+							case ("Netherlands"):
+								europe();
+							break;
+							case ("Norway"):
+								europe();
+							break;
+							case ("Poland"):
+								europe();
+							break;
+							case ("Portugal"):
+								europe();
+							break;
+							case ("Romania"):
+								europe();
+							break;
+							case ("San_Marino"):
+								europe();
+							break;
+							case ("Serbia"):
+								europe();
+							break;
+							case ("Slovakia"):
+								europe();
+							break;
+							case ("Slovenia"):
+								europe();
+							break;
+							case ("Spain"):
+								europe();
+							break;
+							case ("Sweden"):
+								europe();
+							break;
+							case ("Switzerland"):
+								europe();
+							break;
+							case ("Turkey"):
+								europe();
+							break;
+							case ("Ukraine"):
+								europe();
+							break;
+							case ("United_Kingdom"):
+								europe();
+							break;
+							case ("Vatican_City"):
+								europe();
+							break;
+							
+							//AFRICA
+							
+							case ("Algeria"):
+								africa();
+							break;
+							case ("Angola"):
+								africa();
+							break;
+							case ("Benin"):
+								africa();
+							break;
+							case ("Botswana"):
+								africa();
+							break;
+							case ("Burkina_Faso"):
+								africa();
+							break;
+							case ("Burundi"):
+								africa();
+							break;
+							case ("Cameroon"):
+								africa();
+							break;
+							case ("Cape_Verde"):
+								africa();
+							break;
+							case ("Central_African_Republic"):
+								africa();
+							break;
+							case ("Chad"):
+								africa();
+							break;
+							case ("Cameroon"):
+								africa();
+							break;
+							case ("Comoros"):
+								africa();
+							break;
+							case ("Congo"):
+								africa();
+							break;
+							case ("Republic_of_the_Congo"):
+								africa();
+							break;
+							case ("Djibouti"):
+								africa();
+							break;
+							case ("Egypt"):
+								africa();
+							break;
+							case ("Equatorial_Guinea"):
+								africa();
+							break;
+							case ("Eritrea"):
+								africa();
+							break;
+							case ("Ethiopia"):
+								africa();
+							break;
+							case ("Gabon"):
+								africa();
+							break;
+							case ("Gambia"):
+								africa();
+							break;
+							case ("Ghana"):
+								africa();
+							break;
+							case ("Guinea"):
+								africa();
+							break;
+							case ("Guinea-Bissau"):
+								africa();
+							break;
+							case ("Ivory_Coast"):
+								africa();
+							break;
+							case ("Kenya"):
+								africa();
+							break;
+							case ("Lesotho"):
+								africa();
+							break;
+							case ("Liberia"):
+								africa();
+							break;
+							case ("Libya"):
+								africa();
+							break;
+							case ("Madagascar"):
+								africa();
+							break;
+							case ("Malawi"):
+								africa();
+							break;
+							case ("Mali"):
+								africa();
+							break;
+							case ("Mauritania"):
+								africa();
+							break;
+							case ("Mauritius"):
+								africa();
+							break;
+							case ("Morocco"):
+								africa();
+							break;
+							case ("Mozambique"):
+								africa();
+							break;
+							case ("Namibia"):
+								africa();
+							break;
+							case ("Niger"):
+								africa();
+							break;
+							case ("Nigeria"):
+								africa();
+							break;
+							case ("Rwanda"):
+								africa();
+							break;
+							case ("Sao_Tome_and_Principe"):
+								africa();
+							break;
+							case ("Senegal"):
+								africa();
+							break;
+							case ("Seychelles"):
+								africa();
+							break;
+							case ("Sierra_Leone"):
+								africa();
+							break;
+							case ("Somalia"):
+								africa();
+							break;
+							case ("South_Africa"):
+								africa();
+							break;
+							case ("South_Sudan"):
+								africa();
+							break;
+							case ("Sudan"):
+								africa();
+							break;
+							case ("Swaziland"):
+								africa();
+							break;
+							case ("Tanzania"):
+								africa();
+							break;
+							case ("Togo"):
+								africa();
+							break;
+							case ("Tunisia"):
+								africa();
+							break;
+							case ("Uganda"):
+								africa();
+							break;
+							case ("Zambia"):
+								africa();
+							break;
+							case ("Zimbabwe"):
+								africa();
+							break;
+							
+							//ASIA AND AUSTRALIA
+							
+							case ("Afghanistan"):
+								asia_and_australia();
+							break;
+							case ("Armenia"):
+								asia_and_australia();
+							break;
+							case ("Azerbaijan"):
+								asia_and_australia();
+							break;
+							case ("Bahrain"):
+								asia_and_australia();
+							break;
+							case ("Bangladesh"):
+								asia_and_australia();
+							break;
+							case ("Bhutan"):
+								asia_and_australia();
+							break;
+							case ("Brunei"):
+								asia_and_australia();
+							break;
+							case ("Cambodia"):
+								asia_and_australia();
+							break;
+							case ("China"):
+								asia_and_australia();
+							break;
+							case ("Cyprus"):
+								asia_and_australia();
+							break;
+							case ("Georgia"):
+								asia_and_australia();
+							break;
+							case ("India"):
+								asia_and_australia();
+							break;
+							case ("Indonesia"):
+								asia_and_australia();
+							break;
+							case ("Iran"):
+								asia_and_australia();
+							break;
+							case ("Iraq"):
+								asia_and_australia();
+							break;
+							case ("Israel"):
+								asia_and_australia();
+							break;
+							case ("Japan"):
+								asia_and_australia();
+							break;
+							case ("Jordan"):
+								asia_and_australia();
+							break;
+							case ("Kazakhstan"):
+								asia_and_australia();
+							break;
+							case ("North_Korea"):
+								asia_and_australia();
+							break;
+							case ("South_Korea"):
+								asia_and_australia();
+							break;
+							case ("Kuwait"):
+								asia_and_australia();
+							break;
+							case ("Kyrgyzstan"):
+								asia_and_australia();
+							break;
+							case ("Laos"):
+								asia_and_australia();
+							break;
+							case ("Lebanon"):
+								asia_and_australia();
+							break;
+							case ("Malaysia"):
+								asia_and_australia();
+							break;
+							case ("Maldives"):
+								asia_and_australia();
+							break;
+							case ("Mongolia"):
+								asia_and_australia();
+							break;
+							case ("Myanmar"):
+								asia_and_australia();
+							break;
+							case ("Nepal"):
+								asia_and_australia();
+							break;
+							case ("Oman"):
+								asia_and_australia();
+							break;
+							case ("Pakistan"):
+								asia_and_australia();
+							break;
+							case ("Palestine"):
+								asia_and_australia();
+							break;
+							case ("Phillipines"):
+								asia_and_australia();
+							break;
+							case ("Qatar"):
+								asia_and_australia();
+							break;
+							case ("Russia"):
+								asia_and_australia();
+							break;
+							case ("Saudi_Arabia"):
+								asia_and_australia();
+							break;
+							case ("Singapore"):
+								asia_and_australia();
+							break;
+							case ("Sri_Lanka"):
+								asia_and_australia();
+							break;
+							case ("Syria"):
+								asia_and_australia();
+							break;
+							case ("Tajikistan"):
+								asia_and_australia();
+							break;
+							case ("Thailand"):
+								asia_and_australia();
+							break;
+							case ("East_Timor"):
+								asia_and_australia();
+							break;
+							case ("Turkey"):
+								asia_and_australia();
+							break;
+							case ("Turkmenistan"):
+								asia_and_australia();
+							break;
+							case ("United_Arab_Emirates"):
+								asia_and_australia();
+							break;
+							case ("Uzbekistan"):
+								asia_and_australia();
+							break;
+							case ("Vietnam"):
+								asia_and_australia();
+							break;
+							case ("Yemen"):
+								asia_and_australia();
+							break;
+							case ("Australia"):
+								asia_and_australia();
+							break;
+							case ("New_Zealand"):
+								asia_and_australia();
+							break;
+							case ("Fiji"):
+								asia_and_australia();
+							break;
+							case ("Kiribati"):
+								asia_and_australia();
+							break;
+							case ("Marshall_Islands"):
+								asia_and_australia();
+							break;
+							case ("Papua_New_Guinea"):
+								asia_and_australia();
+							break;
+							case ("Samoa"):
+								asia_and_australia();
+							break;
+							case ("Solomon_Islands"):
+								asia_and_australia();
+							break;
+							case ("Vanuatu"):
+								asia_and_australia();
+							break;
+							
+						} // ends switch
+					
+					// MOUSEOVER OPACITY CHANGE FOR ACTIVE COUNTRIES WHEN ZOOMED IN
+					// ## CHANGE ## ACTIVE LIST ## Add / Remove Active Countries (repeat below - lists should be the same)
+					}else if(zoom == "in"){
+						switch(event.target.id) {
+							case ("Argentina"):
+								active(evt);
+							break;
+							case ("Australia"):
+								active(evt);
+							break;
+							case ("Austria"):
+								active(evt);
+							break;
+							case ("Bahamas"):
+								active(evt);
+							break;
+							case ("Belgium"):
+								active(evt);
+							break;
+							case ("Belize"):
+								active(evt);
+							break;
+							case ("Bolivia"):
+								active(evt);
+							break;
+							case ("Brazil"):
+								active(evt);
+							break;
+							case ("Bulgaria"):
+								active(evt);
+							break;
+							case ("Canada"):
+								active(evt);
+							break;
+							case ("Chile"):
+								active(evt);
+							break;
+							case ("Colombia"):
+								active(evt);
+							break;
+							case ("Costa_Rica"):
+								active(evt);
+							break;
+							case ("Cyprus"):
+								active(evt);
+							break;
+							case ("Czech_Republic"):
+								active(evt);
+							break;
+							case ("Denmark"):
+								active(evt);
+							break;
+							case ("Dominican_Republic"):
+								active(evt);
+							break;
+							case ("Ecuador"):
+								active(evt);
+							break;
+							case ("Estonia"):
+								active(evt);
+							break;
+							case ("El_Salvador"):
+								active(evt);
+							break;
+							case ("France"):
+								active(evt);
+							break;
+							case ("Germany"):
+								active(evt);
+							break;
+							case ("Guam"):
+								active(evt);
+							break;
+							case ("Guatemala"):
+								active(evt);
+							break;
+							case ("Greece"):
+								active(evt);
+							break;
+							case ("Haiti"):
+								active(evt);
+							break;
+							case ("Honduras"):
+								active(evt);
+							break;
+							case ("Hungary"):
+								active(evt);
+							break;
+							case ("Italy"):
+								active(evt);
+							break;
+							case ("Indonesia"):
+								active(evt);
+							break;
+							case ("Ireland"):
+								active(evt);
+							break;
+							case ("Latvia"):
+								active(evt);
+							break;
+							case ("Lithuania"):
+								active(evt);
+							break;
+							case ("Luxembourg"):
+								active(evt);
+							break;
+							case ("Malta"):
+								active(evt);
+							break;
+							case ("Mexico"):
+								active(evt);
+							break;
+							case ("Netherlands"):
+								active(evt);
+							break;
+							case ("Nicaragua"):
+								active(evt);
+							break;
+							case ("Northern_Mariana_Islands"):
+								active(evt);
+							break;
+							case ("Panama"):
+								active(evt);
+							break;
+							case ("Paraguay"):
+								active(evt);
+							break;
+							case ("Portugal"):
+								active(evt);
+							break;
+							case ("Peru"):
+								active(evt);
+							break;
+							case ("Puerto_Rico"):
+								active(evt);
+							break;
+							case ("Romania"):
+								active(evt);
+							break;
+							case ("Singapore"):
+								active(evt);
+							break;
+							case ("Slovakia"):
+								active(evt);
+							break;
+							case ("Slovenia"):
+								active(evt);
+							break;
+							case ("South_Africa"):
+								active(evt);
+							break;
+							case ("South_Korea"):
+								active(evt);
+							break;
+							case ("Spain"):
+								active(evt);
+							break;
+							case ("Sweden"):
+								active(evt);
+							break;
+							case ("United_Kingdom"):
+								active(evt);
+							break;
+							case ("Uruguay"):
+								active(evt);
+							break;
+							case ("USA"):
+								active(evt);
+							break;
+							case ("Venezuela"):
+								active(evt);
+							break;
+							case ("Virgin_Islands"):
+								active(evt);
+							break;
+								case ("Poland"):
+								active(evt);
+							break;
+								case ("Croatia"):
+								active(evt);
+							break;
+								case ("Norway"):
+								active(evt);
+							break;
+								case ("Finland"):
+								active(evt);
+							break;
+							/*case ("[NEW COUNTRY GOES HERE]"):
+								active(evt);
+							break;*/
+					}
+			}
+		});
+		
+		// MOUSE OUT
+		$('svg').mouseout(function(event){
+			var evt = event;
+			// MOUSEOUT OPACITY CHANGE FOR ACTIVE COUNTRIES WHEN ZOOMED IN
+			// ## CHANGE ## ACTIVE LIST ## Add / Remove Active Countries (repeat above - lists should be the same)
+					switch(event.target.id) {
+							case ("Argentina"):
+								active_out(evt);
+							break;
+							case ("Australia"):
+								active_out(evt);
+							break;
+							case ("Austria"):
+								active_out(evt);
+							break;
+							case ("Bahamas"):
+								active_out(evt);
+							break;
+							case ("Belgium"):
+								active_out(evt);
+							break;
+							case ("Belize"):
+								active_out(evt);
+							break;
+							case ("Bolivia"):
+								active_out(evt);
+							break;
+							case ("Bulgaria"):
+								active_out(evt);
+							break;
+							case ("Brazil"):
+								active_out(evt);
+							break;
+							case ("Canada"):
+								active_out(evt);
+							break;
+							case ("Chile"):
+								active_out(evt);
+							break;
+							case ("Colombia"):
+								active_out(evt);
+							break;
+							case ("Costa_Rica"):
+								active_out(evt);
+							break;
+							case ("Croatia"):
+								active_out(evt);
+							break;
+							case ("Cyprus"):
+								active_out(evt);
+							break;
+							case ("Czech_Republic"):
+								active_out(evt);
+							break;
+							case ("Denmark"):
+								active_out(evt);
+							break;
+							case ("Dominican_Republic"):
+								active_out(evt);
+							break;
+							case ("Ecuador"):
+								active_out(evt);
+							break;
+							case ("Estonia"):
+								active_out(evt);
+							break;
+							case ("El_Salvador"):
+								active_out(evt);
+							break;
+							case ("France"):
+								active_out(evt);
+							break;
+							case ("Finland"):
+								active_out(evt);
+							break;
+							case ("Germany"):
+								active_out(evt);
+							break;
+							case ("Greece"):
+								active_out(evt);
+							break;
+							case ("Guam"):
+								active_out(evt);
+							break;
+							case ("Guatemala"):
+								active_out(evt);
+							break;
+							case ("Haiti"):
+								active_out(evt);
+							break;
+							case ("Hungary"):
+								active_out(evt);
+							break;
+							case ("Honduras"):
+								active_out(evt);
+							break;
+							case ("Italy"):
+								active_out(evt);
+							break;
+							case ("Indonesia"):
+								active_out(evt);
+							break;
+							case ("Ireland"):
+								active_out(evt);
+							break;
+							case ("Latvia"):
+								active_out(evt);
+							break;
+							case ("Lithuania"):
+								active_out(evt);
+							break;
+							case ("Luxembourg"):
+								active_out(evt);
+							break;
+							case ("Malta"):
+								active_out(evt);
+							break;
+							case ("Mexico"):
+								active_out(evt);
+							break;
+							case ("Netherlands"):
+								active_out(evt);
+							break;
+							case ("Nicaragua"):
+								active_out(evt);
+							break;
+							case ("Northern_Mariana_Islands"):
+								active_out(evt);
+							break;
+							case ("Norway"):
+								active_out(evt);
+							break;
+							case ("Panama"):
+								active_out(evt);
+							break;
+							case ("Paraguay"):
+								active_out(evt);
+							break;
+							case ("Portugal"):
+								active_out(evt);
+							break;
+							case ("Poland"):
+								active_out(evt);
+							break;
+							case ("Peru"):
+								active_out(evt);
+							break;
+							case ("Puerto_Rico"):
+								active_out(evt);
+							break;
+							case ("Romania"):
+								active_out(evt);
+							break;
+							case ("Singapore"):
+								active_out(evt);
+							break;
+							case ("Slovakia"):
+								active_out(evt);
+							break;
+							case ("Slovenia"):
+								active_out(evt);
+							break;
+							case ("South_Africa"):
+								active_out(evt);
+							break;
+							case ("South_Korea"):
+								active_out(evt);
+							break;
+							case ("Spain"):
+								active_out(evt);
+							break;
+							case ("Sweden"):
+								active_out(evt);
+							break;
+							case ("United_Kingdom"):
+								active_out(evt);
+							break;
+							case ("Uruguay"):
+								active_out(evt);
+							break;
+							case ("USA"):
+								active_out(evt);
+							break;
+							case ("Venezuela"):
+								active_out(evt);
+							break;
+							break;
+							/*case ("[NEW COUNTRY GOES HERE]"):
+								active_out(evt);
+							break;*/
+					}
+			
+			
+		});
+		
+		// A COUNTRY IN NORTH AMERICA IS ROLLED OVER
+		function northAmerica() {
+			// CHANGE CONTINENT_COUNTRY TEXT TO NORTH AMERICA
+			$('#continent_country').html("<p>" + "North America" + "</p>");
+			// SET var continent to "NorthAmerica" for ZOOMS
+			continent = "NorthAmerica";
+		}
+		
+		// A COUNTRY IN LATIN AMERICA IS ROLLED OVER
+		function latinAmerica() {
+			$('#continent_country').html("<p>" + "Latin America" + "</p>");
+			continent = "LatinAmerica";
+		}
+		
+		// A COUNTRY IN EUROPE IS ROLLED OVER
+		function europe() {
+			$('#continent_country').html("<p>" + "Europe" + "</p>");
+			continent = "Europe";
+		}
+		
+		// A COUNTRY IN AFRICA IS ROLLED OVER
+		function africa() {
+			$('#continent_country').html("<p>" + "Africa" + "</p>");
+			continent = "Africa";
+		}
+		
+		// A COUNTRY IN ASIA OR AUSTRALIA IS ROLLED OVER
+		function asia_and_australia() {
+			$('#continent_country').html("<p>" + "Asia and Australia" + "</p>");
+			continent = "AsiaAndAustralia";
+		}
+		
+		// OPACITY CHANGE AND DISPLAY COUNTRY
+		function active(e) {
+			var event = e;
+			event.target.setAttribute("style", "fill-opacity: 0.5;");
+			// IF the name of the country has multiple words, cut out the "_" between words
+			switch(event.target.id) {
+							case ("Costa_Rica"):
+								$('#continent_country').html("<p>" + "Costa Rica" + "</p>");
+							break;
+							case ("Dominican_Republic"):
+								$('#continent_country').html("<p>" + "Dominican Republic" + "</p>");
+							break;
+							case ("El_Salvador"):
+								$('#continent_country').html("<p>" + "El Salvador" + "</p>");
+							break;
+							case ("Northern_Mariana_Islands"):
+								$('#continent_country').html("<p>" + "Northern Mariana Islands" + "</p>");
+							break;
+							case ("Puerto_Rico"):
+								$('#continent_country').html("<p>" + "Puerto Rico" + "</p>");
+							break;
+							case ("South_Africa"):
+								$('#continent_country').html("<p>" + "South Africa" + "</p>");
+							break;
+							case ("South_Korea"):
+								$('#continent_country').html("<p>" + "South Korea" + "</p>");
+							break;
+							case ("United_Kingdom"):
+								$('#continent_country').html("<p>" + "United Kingdom" + "</p>");
+							break;
+							case ("Virgin_Islands"):
+								$('#continent_country').html("<p>" + "Virgin Islands" + "</p>");
+							break;
+							case ("Czech_Republic"):
+								$('#continent_country').html("<p>" + "Czech Republic" + "</p>");
+							break;
+							// Otherwise just display the country name as is
+							default: $('#continent_country').html("<p>" + event.target.id + "</p>");
+				}
+		}
+		
+		// OPACITY CHANGE AND CLEAR continent_country TEXT ON mouseout
+		function active_out(e){
+			var event = e;
+			event.target.setAttribute("style", "fill-opacity: 1");
+			$('#continent_country').html("");
+		}
+	}); 
+	
+// END JAVASCRIPT
+</script>
+
+<style type="text/css">
+/*  CSS */
+
+body > iframe { display: none; }
+
+body{
+	background-color: #ADC2D6;
+	overflow: hidden;
+	font-family: Arial, sans-serif;
+	padding: 0px;
+	margin: 0px;
+}
+
+#svgmap { 
+	width: 100%; 
+	height: 915px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	top: 0px;
+}
+
+#continent_country{
+	position: absolute;
+	top: 2%;
+	left: 30%;
+	z-index: 5;
+	width: 500px;
+	height: 30px;
+}
+
+#continent_country p{
+	font-size: 200%;
+	color: #002663;
+	text-shadow: 2px 2px 2px white;
+	text-align: center;
+}
+
+#map_title{
+	position: absolute;
+	top: 0%;
+	left: 33%;
+	padding: 0px 20px;
+	z-index: 999;
+	background-color: white;
+	border-radius: 10px;
+	
+}
+
+#map_title p{
+	font-size: 250%;
+	color: #002663;
+	text-shadow: 2px 2px 2px white;
+	text-align: center;
+	margin: 0px;
+}
+
+#prompt{
+	position: absolute;
+	bottom: 50px;
+	left: 30%;
+	z-index: 6;
+	width: 500px;
+	height: 30px;
+}
+
+#prompt p{
+	font-size: 150%;
+	color: #ABCDEF;
+	text-shadow: 1px 1px 1px black;
+	text-align: center;
+}
+
+#zoom_out{
+	position: absolute;
+	z-index: 5;
+	right: 0px;
+	top: 0px;
+	height: 42px;
+	width: 150px;
+	font-size: 150%;
+	display: none;
+	background-image:url('images/Zoom.png');
+}
+
+.databox{
+	position: absolute;
+	z-index: 1000;
+	left: -30%;
+	top: 0px;
+	min-width: 225px;
+	width: 20%;
+	background-image:url('images/Pop-Up-Menu-Background.jpg');
+	box-shadow: 2px 2px 10px black;
+	padding-top: 0px;
+	font-size: 120%
+}
+
+.databox p{
+	margin: 0px 10px;
+	text-indent: 10px;
+}
+
+.databox img{
+	float: left;
+	margin-left: 10px;
+}
+
+.blue_gradient{
+	width: 100%;
+	background-color: blue;
+	background-image:url('images/Pop-Up-Menu-Header-Background.jpg');
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.blue_gradient p{
+	font-size: 125%;
+	color: white;
+	text-align: center;
+	font-family: 'Ubuntu Mono', sans-serif;
+	text-indent: 0px;
+}
+
+.databox ul{
+	list-style-type: none;
+	margin-left: -20px;
+}
+
+.databox ul li a{
+	text-decoration: none;
+}
+
+#legend{
+	background-color: white;
+	background-image: url("images/Legend-Background.jpg");
+	position: absolute;
+	z-index: 999;
+	left: 0px;
+	bottom: 0px;
+	padding: 0px;
+	width: 20%;
+	min-width: 250px;
+	box-shadow: 2px 2px 10px black;
+}
+
+#legend ul{
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0px;
+	float: left;
+	padding: 0px;
+	width: 100%;
+}
+
+#legend ul li{
+	margin: 0px;
+	margin-left: 10px;
+	width: 100%;
+	padding: 0px;
+}
+
+#legend ul li p{
+	float: none;
+	width: 100%;
+}
+
+#legend ul li img{
+	float: left;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+#legend p{
+	display: block;
+	float: left;
+	margin: 5px;
+}
+
+#legend div{
+	width: 100%;
+	color: white;
+	padding: 5px;
+}
+
+#title_legend{
+	background-color: blue;
+	background-image: url("images/Legend-Header-Background.jpg");
+	height: 20px;
+	width: 20px;
+	color: white;
+	float: right;
+	padding: 0px;
+}
+
+#title_legend p{
+	line-height: 10px;
+	margin-left: 10px;
+	font-family: 'Ubuntu Mono', sans-serif;
+}
+
+/*  END CSS */
+
+</style>
+
+</head>
+<body>
+<!--HTML-->
+<div id="svgmap"></div>
+<div id="map_title"><p>Zoomable Map with SVG and jQuery</p></div>
+<div id="continent_country"><p>continent_country</p></div>
+<div id="prompt"><p>Click a Continent for more information</p></div>
+<div id="legend">
+	<div id="title_legend"><p>Legend</p></div>
+	<ul>
+		<li><img src="images/Legend-Light-Blue-Box.jpg"  /><p>Light Blue Countries</p></li>
+		<li><img src="images/Legend-Dark-Blue-Box.jpg"  /><p>Dark Blue Countries</p></li>
+		<li><img src="images/Legend-Light-Grey-Box.jpg" /><p>Light Gray Countries</p></li>
+	</ul>
+	<p>Days to issue the bond once all documentation is received.</p>
+</div> <!--closes #legend-->
+<div id="NorthAmericaData" class="databox">
+	<div class="blue_gradient"><p>North America and Central America</p></div>
+	<img src="images/pop_up_menu_arrow.png" height="18" /><p>Click on the map or list below to learn more.</p>
+	<ul>
+		<li><a href="http://en.wikipedia.org/wiki/Bahamas">Bahamas</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Canada">Canada</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Puerto_Rico">Puerto Rico</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Mexico">Mexico</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Virgin_Islands">Virgin Islands</a></li>
+		<!--<li><a href="[NEW URL GOES HERE]">[NEW COUNTRY GOES HERE]</a></li>-->
+	</ul>
+</div> <!--closes NorthAmericaData-->
+
+<div id="LatinAmericaData" class="databox">
+	<div class="blue_gradient"><p>Latin America</p></div>
+	<img src="images/pop_up_menu_arrow.png" height="18" /><p>Click on the map or list below to learn more.</p>
+	<ul>
+		<li><a href="http://en.wikipedia.org/wiki/Argentina">Argentina</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Belize">Belize</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Bolivia">Bolivia</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Brazil">Brazil</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Chile">Chile</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Colombia">Colombia</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Costa_Rica">Costa Rica</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Dominican_Republic">Dominican Republic</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Ecuador">Ecuador</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/El_Salvador">El Salvador</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Guatemala">Guatemala</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Haiti">Haiti</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Honduras">Honduras</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Nicaragua">Nicaragua</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Panama">Panama</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Peru">Peru</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Paraguay">Paraguay</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Uruguay">Uruguay</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Venezuela">Venezuela</a></li>
+	</ul>
+</div> <!--closes LatinAmericaData-->
+
+<div id="EuropeData" class="databox">
+	<div class="blue_gradient"><p>Europe</p></div>
+	<img src="images/pop_up_menu_arrow.png" height="18" /><p>Click on the map or list below to learn more.</p>
+	<ul>
+		<li><a href="http://en.wikipedia.org/wiki/Austria">Austria</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Denmark">Denmark</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/France">France</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Germany">Germany</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Ireland">Ireland</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Italy">Italy</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Netherlands">Netherlands</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Portugal">Portugal</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Spain">Spain</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Sweden">Sweden</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/United_Kingdom">United Kingdom</a></li>
+	</ul>
+</div> <!--closes EuropeData-->
+
+<div id="AfricaData" class="databox">
+	<div class="blue_gradient"><p>Africa</p></div>
+	<img src="images/pop_up_menu_arrow.png" height="18" /><p>Click on the map or list below to learn more.</p>
+	<ul>
+		<li><a href="http://en.wikipedia.org/wiki/South_Africa">South Africa</a></li>
+	</ul>
+</div> <!--closes AfricaData-->
+
+<div id="AustraliaAsiaData" class="databox">
+	<div class="blue_gradient"><p>Australia and Asia</p></div>
+	<img src="images/pop_up_menu_arrow.png" height="18" /><p>Click on the map or list below to learn more.</p>
+	<ul>
+		<li><a href="http://en.wikipedia.org/wiki/Australia">Australia</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Guam">Guam</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Indonesia">Indonesia</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Northern_Marianan_Islands">Northern Mariana Islands</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/South_Korea">South Korea</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Singapore">Singapore</a></li>
+
+	</ul>
+</div> <!--closes AustraliaAsiaData-->
+<p>	
+	<div id="zoom_out"></div>
+</p>
+</body>
+<!--END HTML-->
+</html>
